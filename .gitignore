@@ -11,3 +11,5 @@ tmp/*
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+practica_MartinRomeraSobrado.pdf
+*.zip
