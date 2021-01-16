@@ -1,6 +1,13 @@
 .vpprefdata/
 *.vpp~*
+*.vpp.lck
+*.vpp.bak*
 *.vpp.working
 *.vpp.working-journal
 *.lock
 tmp/*
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
