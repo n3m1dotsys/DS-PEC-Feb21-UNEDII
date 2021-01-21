@@ -13,3 +13,11 @@ tmp/*
 *.synctex.gz
 practica_MartinRomeraSobrado.pdf
 *.zip
+informe/informe-ds2021-blx.bib
+
+*.bbl
+
+*.blg
+
+informe/informe-ds2021.run.xml
+/bin/

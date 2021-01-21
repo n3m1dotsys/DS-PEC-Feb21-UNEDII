@@ -5,7 +5,11 @@
 \usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
+\usepackage[backend=bibtex,style=alphabetic-verb]{biblatex}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\addbibresource{bibliografia_ds}
+
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -35,28 +39,26 @@
 		
 		\vspace{0.8cm}
 		\Large
-		Horas de estudio de los contenidos hasta la fecha:\textbf{ 85 horas}\\
+		Horas de estudio de los contenidos hasta la fecha:\textbf{ 103 horas}\\
 		
-		Horas de dedicación para realizar esta actividad:\textbf{ 20 horas}\\
+		Horas de dedicación para realizar esta actividad:\textbf{ 20(PEC) + 22(PUF) horas}\\
 		
 		Número de actividades no evaluables realizadas:\textbf{ 22 actividades}\\
-		 % TODO añadir fecha
+		
+		\today
 	\end{titlepage}
 	\newpage
 	\section{Cuestiones}
 		\subsection{Fase de Inicio: Evaluación de los Casos de Uso}
-			\subsubsection{Casos de uso primarios}
-				\textit{Represente en un diagrama UML de casos de uso, los casos de uso primarios (Elementary Business Process) más importantes, sus actores principales, los de apoyo y las interacciones correspondientes para el módulo SanGranja.}\\
+			\subsubsection{Casos de uso primarios / Ejercicio 1}
+			
 				\begin{figure}[h]
 					\includegraphics[width=\textwidth]{diagramas/CasosDeUsoPrimarios.jpg}
 					\caption{Diagrama de Casos de Uso primarios.}
 				\end{figure}
-				
-				
-			\subsubsection{Caso de uso <<SimularPropagaciónEnfermedad\_X>>}
-				\textit{Con la siguiente descripción del caso de uso <<SimularPropagaciónEnfermedad\_X>>, escribalo en un formato completo (se recomiendoa la variante ``en dos columnas'') y un estilo esencial (excluyendo los detalles técnicos de nivel bajo). Incluya tanto el flujo en el escenario principal de éxito como 2 extensiones o flujos alternativos que pudieran ser frecuentes:}\\
-				\begin{table}[h!]
-					\centering
+						\newpage
+			\subsubsection{Caso de uso <<SimularPropagaciónEnfermedad\_X>> / Ejercicio 2}
+				\begin{center}
 					\begin{tabular}{|p{0.5\linewidth}|p{0.5\linewidth}|}
 						\hline
 						\textbf{Actor principal:} & \textit{Usuario} \\\hline
@@ -77,9 +79,80 @@
 						& 4. El \textit{Sistema} elimina ese corral para los cálculos de la simulación\\
 						& 5. El \textit{Sistema} reanuda los cálculos y continua en el paso 3 del escenario principal.\\\hline
 					\end{tabular}
-					\caption{Caso de Uso <<SimularPropagaciónEnfermedad\_X>>}
-				\end{table}
-		\subsection{Fase de Elaboración: Modelado Conceptual}
+				\end{center}
+
+		\subsection{Fase de Elaboración: Modelado Conceptual / Ejercicio 3}
+		
 			\includegraphics[width=\linewidth]{diagramas/MDom SimularPropagacionEnfermedad_X Clases Conceptuales.jpg}
+			
+		\subsection{Fase de Elaboración: Diseño Dinámico Detallado del caso de uso}
+		
+			\subsubsection{Diagrama de interacción / Ejercicio 4}
+				
+			\includegraphics[width=\linewidth]{diagramas/DDD SimularPropagacionEnfermedad_X Diagrama de Secuencia.jpg}\\
+			
+			A continuación se añade un diagrama de secuencia que explica como funciona en profundidad la operación \texttt{iniciarCalculosSimulacion()}.
+			
+			\includegraphics[width=\linewidth]{diagramas/DDD simulacion Diagrama de Secuencia.jpg}
+			\newpage
+			\subsubsection{Contrato de operación: ParamSim / Ejercicio 5}
+			
+			\begin{center}
+				\begin{tabular}{|p{0.25\linewidth}|p{0.75\linewidth}|}
+					\hline
+					\textbf{Nombre} &
+					\texttt{ParamSim}\\\hline
+					\textbf{Responsabilidades} &
+					Realizar una simulación sobre la propagación de una enfermedad que haya brotado en los corrales druante unos día determinados
+					\\\hline
+					\textbf{Referencias Curzadas} &
+					\textit{Caso de Uso}: <<SimularPropagaciónEnfermedad\_X>>
+					\\\hline
+					\textbf{Notas} &
+					Para la evolución de la enfermedad de un día a otro se utilizará la siguiente formula:
+					\[\Delta N_{d+1} = pr \times E \times \left(1- \frac{N_d}{P}\times N_d\right)\]
+					Siendo $E$ el promedio de encuentros un día, $pr$ la probabilidad de contagio, $P$ la población animal en un Corral, y $N_d$ el número de animales infectados el día $d$. 
+					
+					En cuanto para calcular la importación de infectados del exterior de un corral utilizaremos la siguiente formula:
+					\[IE_{d+1,i} = \sum_{j=1}^{j = n, j \neq i} T_{j,i} \times \frac{N_{d,j}}{P_j}\]
+					Siendo $IE_{d+1,i}$ los infectados importados del exterio en el corral $i$ el día $d+1$, $T_j,i$ son los traslados del corral $j$ a $i$ $N_d,j$ es el número de contagiados en el corral $j$ el día $d$ y $P_j$ es la población animal del corral $j$.
+					
+					En conclusión la formula del algoritmo de calculo de la simulación quedaría de la siguiente forma
+					
+					\[
+					N_{d+1,i} = N_{d,i} + pr \times E \times \left(1 - \frac{N_{d,i}}{P_i}\times\right)\times\left(N_{d,i} + \sum_{j=1}^{j=n, j\neq i} T_{j,i} \times \frac{N_{d,j}}{P_j}\right)
+					\]
+					
+					Los traslados deberán estar preprogramados.
+					\\\hline
+					\textbf{Excepciones} &
+					Si el proceso se ve interrumpido, no se mostrará ninguna información sobre la simulación que estaba en curso.
+					\\\hline
+					\textbf{Salida} &
+					Muestra al usuario en forma de relación bidimensional la evolución de la enfermedad a lo largo de los días.
+					\\\hline
+					\textbf{Precondiciones} &
+					Las instancias del \texttt{ControladorSimulacion}, \texttt{ControladorNivelSup} y \texttt{CatalogoCorrales} deberán estar iniciadas en el sistema, además de que \texttt{CatalogoCorrales} deberá constar de al menos un \texttt{Corral} registrado, y todos los traslados que vayan a ocurrir en el lapso de tiempo de la simulación deberán haber sido registrados para obtener unos resultados útiles. Además el hardware desde el que el usuario inicia la simulación deberá tener acceso a la instancia \texttt{ControladorSimulacion}.
+					\\\hline
+					\textbf{Postcondiciones} &
+					El usuario podrá examinar los resultados de la simulación desde un hardware especifico para ello (como un terminal) que tenga acceso a la instancia \texttt{ControladorSimulacion}.
+					\\\hline
+				\end{tabular}		
+			\end{center}
+		
+		\subsection{Fase de Elaboración: Diseño Estático Detallado del caso de uso / Ejercicio 6}
+		
+			\includegraphics[width=\linewidth]{diagramas/DED SimularPropagacionEnfermedad_X Diagrama de Clases.jpg}
+			 
+		\subsection{Transformación del Diseño en Código / Ejercicio 7}
+	
+			La solución a este apartado puede encontrarse en forma de código fuente dentro del directorio \texttt{src/} en el paquete de java \texttt{es.uned.dspuf}.
+	
+		\subsection{Motivación / Ejercicios 8 y 9}
+	
+			Los patrones de responsabilidades de GRASP que se han utilizado, la más notable es la de \textit{Experto en Información} cuyo patrón se ha utilizado para centralizar la información correspondiente a cada elemento. También ha facilitado una descentralización de la información (algo que a primera vista puede parecer contradictorio) ya que ciertas fracciones de información, como la \texttt{PoblacionAnimal} de los \texttt{Corral}es o los \texttt{ParametrosContagio} de \texttt{VectorContagio} se encuentran en clases separadas, apoyandose en el planteamiento que se hizo en el diagrama de clases conceptuales del ejercicio 3. También se hace uso del patrón de \textit{Controlador} en la clase \texttt{ControladorNivelSup} quien es quien se encarga de funcionar como sistema principal. Aunque el nombre pueda engañar y que en parte también cumpla la función de \textit{Controlador} de segundo nivel, ya que controla la instancia de \texttt{Simulacion}, la clase \texttt{ControladorSimulacion} sigue el patrón de \textit{Creador} inicializando la instancia de \texttt{Simulacion}. También el esquema de clases siguen un patrón de \textit{Bajo Acoplamiento} asignando unas pocas responsabilidades a clases muy diversas, para que futuros cambios no generen un impacto tan grande en el sistema. También sigue un patrón de \textit{Alta Cohesión} ya que muchos de los metodos de las clases son sencillos, reutilizables y comprensibles. El único caso que no cumpliria eso serían las clases cercanas a la \texttt{Simulacion} que cumplen una tarea más especifica y compleja.\\
+			
+			Los patrones más notable de los patrones GoF utilizados es \textit{Singleton}. Tanto \texttt{ControladorNivelSup} como \texttt{CatalogoCorrales} utilizan este patrón ya que son clases únicas que realmente son independientes entre ellas, facilitando así la interfaz de acceso entre subsistemas. \texttt{ControladorSimulacion} podría utilizar este patrón también, pero para este prototipo no erá realmente necesario.
+			Otro patrón destacable es el de \textit{Factoría} utilizado en el \texttt{ControladorSimulacion} encargandose de proporcionar los datos necesarios a \texttt{Simulacion} aunque despues delegando a este la lógica de gestión de esos datos de forma que no cumple "a raja tabla" el patrón. Finalmente el patrón de \textit{Fachada} utilizado para la clase \texttt{EstadoCorrales} que funciona como punto de acceso dentro del algoritmo de de la simulación para acceder a los datos del corral, lo que simplifica mucho el acceso a ellos.		
 			
 \end{document}
