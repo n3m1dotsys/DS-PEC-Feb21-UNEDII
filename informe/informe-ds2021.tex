@@ -39,9 +39,9 @@
 		
 		\vspace{0.8cm}
 		\Large
-		Horas de estudio de los contenidos hasta la fecha:\textbf{ 85 horas}\\
+		Horas de estudio de los contenidos hasta la fecha:\textbf{ 103 horas}\\
 		
-		Horas de dedicación para realizar esta actividad:\textbf{ 20 horas}\\
+		Horas de dedicación para realizar esta actividad:\textbf{ 20(PEC) + 22(PUF) horas}\\
 		
 		Número de actividades no evaluables realizadas:\textbf{ 22 actividades}\\
 		
@@ -150,8 +150,9 @@
 	
 		\subsection{Motivación / Ejercicios 8 y 9}
 	
-	\printbibliography
+			Los patrones de responsabilidades de GRASP que se han utilizado, la más notable es la de \textit{Experto en Información} cuyo patrón se ha utilizado para centralizar la información correspondiente a cada elemento. También ha facilitado una descentralización de la información (algo que a primera vista puede parecer contradictorio) ya que ciertas fracciones de información, como la \texttt{PoblacionAnimal} de los \texttt{Corral}es o los \texttt{ParametrosContagio} de \texttt{VectorContagio} se encuentran en clases separadas, apoyandose en el planteamiento que se hizo en el diagrama de clases conceptuales del ejercicio 3. También se hace uso del patrón de \textit{Controlador} en la clase \texttt{ControladorNivelSup} quien es quien se encarga de funcionar como sistema principal. Aunque el nombre pueda engañar y que en parte también cumpla la función de \textit{Controlador} de segundo nivel, ya que controla la instancia de \texttt{Simulacion}, la clase \texttt{ControladorSimulacion} sigue el patrón de \textit{Creador} inicializando la instancia de \texttt{Simulacion}. También el esquema de clases siguen un patrón de \textit{Bajo Acoplamiento} asignando unas pocas responsabilidades a clases muy diversas, para que futuros cambios no generen un impacto tan grande en el sistema. También sigue un patrón de \textit{Alta Cohesión} ya que muchos de los metodos de las clases son sencillos, reutilizables y comprensibles. El único caso que no cumpliria eso serían las clases cercanas a la \texttt{Simulacion} que cumplen una tarea más especifica y compleja.\\
 			
-		
+			Los patrones más notable de los patrones GoF utilizados es \textit{Singleton}. Tanto \texttt{ControladorNivelSup} como \texttt{CatalogoCorrales} utilizan este patrón ya que son clases únicas que realmente son independientes entre ellas, facilitando así la interfaz de acceso entre subsistemas. \texttt{ControladorSimulacion} podría utilizar este patrón también, pero para este prototipo no erá realmente necesario.
+			Otro patrón destacable es el de \textit{Factoría} utilizado en el \texttt{ControladorSimulacion} encargandose de proporcionar los datos necesarios a \texttt{Simulacion} aunque despues delegando a este la lógica de gestión de esos datos de forma que no cumple "a raja tabla" el patrón. Finalmente el patrón de \textit{Fachada} utilizado para la clase \texttt{EstadoCorrales} que funciona como punto de acceso dentro del algoritmo de de la simulación para acceder a los datos del corral, lo que simplifica mucho el acceso a ellos.		
 			
 \end{document}
