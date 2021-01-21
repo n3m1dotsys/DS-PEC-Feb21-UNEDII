@@ -50,18 +50,15 @@
 	\newpage
 	\section{Cuestiones}
 		\subsection{Fase de Inicio: Evaluación de los Casos de Uso}
-			\subsubsection{Casos de uso primarios}
-				\textit{Represente en un diagrama UML de casos de uso, los casos de uso primarios (Elementary Business Process) más importantes, sus actores principales, los de apoyo y las interacciones correspondientes para el módulo SanGranja.}\\
+			\subsubsection{Casos de uso primarios / Ejercicio 1}
+			
 				\begin{figure}[h]
 					\includegraphics[width=\textwidth]{diagramas/CasosDeUsoPrimarios.jpg}
 					\caption{Diagrama de Casos de Uso primarios.}
 				\end{figure}
-				
-			\newpage
-			\subsubsection{Caso de uso <<SimularPropagaciónEnfermedad\_X>>}
-				\textit{Con la siguiente descripción del caso de uso <<SimularPropagaciónEnfermedad\_X>>, escribalo en un formato completo (se recomiendoa la variante ``en dos columnas'') y un estilo esencial (excluyendo los detalles técnicos de nivel bajo). Incluya tanto el flujo en el escenario principal de éxito como 2 extensiones o flujos alternativos que pudieran ser frecuentes:}\\
-				\begin{table}[h!]
-					\centering
+						\newpage
+			\subsubsection{Caso de uso <<SimularPropagaciónEnfermedad\_X>> / Ejercicio 2}
+				\begin{center}
 					\begin{tabular}{|p{0.5\linewidth}|p{0.5\linewidth}|}
 						\hline
 						\textbf{Actor principal:} & \textit{Usuario} \\\hline
@@ -82,26 +79,24 @@
 						& 4. El \textit{Sistema} elimina ese corral para los cálculos de la simulación\\
 						& 5. El \textit{Sistema} reanuda los cálculos y continua en el paso 3 del escenario principal.\\\hline
 					\end{tabular}
-					\caption{Caso de Uso <<SimularPropagaciónEnfermedad\_X>>}
-				\end{table}
-		\newpage
-		\subsection{Fase de Elaboración: Modelado Conceptual}
-			
-			\textit{En relación con el caso de uso anterior, <<SimularPropagaciónEnfermedad\_X>>, construya un modelo de Dominio y represéntelo en notación UML. Represente los objetos conceptuales, las relaciones relevantes entre ellos, su cardinalidad y los atributos candidatos de los objetos.}\\
+				\end{center}
+
+		\subsection{Fase de Elaboración: Modelado Conceptual / Ejercicio 3}
 		
 			\includegraphics[width=\linewidth]{diagramas/MDom SimularPropagacionEnfermedad_X Clases Conceptuales.jpg}
-		\newpage
+			
 		\subsection{Fase de Elaboración: Diseño Dinámico Detallado del caso de uso}
 		
-			\subsubsection{Diagrama de interacción}
-		
-			\textit{Circunscrito al caso de uso que nos ocupa <<SimularPropagaciónEnfermedad\_X>>, construya un Diagrama de Interacción en UML. Represente el actor, sus eventos y el paso de mensajes entre cada instancia de las clases software que componen el sistema para este caso de uso.}\\
-		
-			\includegraphics[width=\linewidth]{diagramas/DDD SimularPropagacionEnfermedad_X Diagrama de Secuencia.jpg}
-			\newpage
-			\subsubsection{Contrato de operación: ParamSim}
+			\subsubsection{Diagrama de interacción / Ejercicio 4}
+				
+			\includegraphics[width=\linewidth]{diagramas/DDD SimularPropagacionEnfermedad_X Diagrama de Secuencia.jpg}\\
 			
-			\textit{A partir del Diagrama de Interacción presentado en la pregunta anterior, escriba y desarrolle el contrato de la operación `ParamSim' que corresponde a la incialización del caso de uso (la creación e incialización de las instancias que se requieran en ese momento) y a la asignación de los valores requeridos para realizar los cálculos de la simulación.} \\
+			A continuación se añade un diagrama de secuencia que explica como funciona en profundidad la operación \texttt{iniciarCalculosSimulacion()}.
+			
+			\includegraphics[width=\linewidth]{diagramas/DDD simulacion Diagrama de Secuencia.jpg}
+			\newpage
+			\subsubsection{Contrato de operación: ParamSim / Ejercicio 5}
+			
 			\begin{center}
 				\begin{tabular}{|p{0.25\linewidth}|p{0.75\linewidth}|}
 					\hline
@@ -122,6 +117,12 @@
 					\[IE_{d+1,i} = \sum_{j=1}^{j = n, j \neq i} T_{j,i} \times \frac{N_{d,j}}{P_j}\]
 					Siendo $IE_{d+1,i}$ los infectados importados del exterio en el corral $i$ el día $d+1$, $T_j,i$ son los traslados del corral $j$ a $i$ $N_d,j$ es el número de contagiados en el corral $j$ el día $d$ y $P_j$ es la población animal del corral $j$.
 					
+					En conclusión la formula del algoritmo de calculo de la simulación quedaría de la siguiente forma
+					
+					\[
+					N_{d+1,i} = N_{d,i} + pr \times E \times \left(1 - \frac{N_{d,i}}{P_i}\times\right)\times\left(N_{d,i} + \sum_{j=1}^{j=n, j\neq i} T_{j,i} \times \frac{N_{d,j}}{P_j}\right)
+					\]
+					
 					Los traslados deberán estar preprogramados.
 					\\\hline
 					\textbf{Excepciones} &
@@ -138,15 +139,16 @@
 					\\\hline
 				\end{tabular}		
 			\end{center}
-		\newpage
-		\subsection{Fase de Elaboración: Diseño Estático Detallado del caso de uso}
-			\textit{Elabore un diagrama de clases para el caso de uso que se esrtá tratando <<SimularPropagaciónEnfermedad\_X>> (DCD), centrado en la clase que va a implementar la responsabilidad más caracteristica del casos de uso, la que mejor defina la naturaleza de lo que se hace en él (ControlSim, Calculador, o como lo haya llamado en los diagramas precedentes). Represente los nombres de todos los atributos, asociaciones (con su navegabilidad) y los métodos (excepto `setters' y `getters' irrelevantes), tanto de esa clase como de las que estén directamente involucradas con ella en el funcionamiento del caso de uso.}	
-	
-			\includegraphics[width=\linewidth]{diagramas/DED SimularPropagacionEnfermedad_X Diagrama de Clases.jpg}
-		\newpage
-		\subsection{Transformación del Diseño en Código}
 		
-			\textit{A partir de los anteriores diagramas de clases y colaboraciones, elabore y defina la clase que haya establecido, en el desarrollo anterior, como responsable de controlar la correcta secuencia de acciones en el caso de uso <<SimularPropagaciónEnfermedad\_X>>. Incluya las definiciones de todas las variables que la componen (miembros), pero escriba solamente la definción completa del cuerpo para el método principal o los métodos más significativos: <<se omite el método>>. Ignore los pequeños detalles de sintaxis -el objetivo es evaluar la capacidad fundamental para transformar el diseño en código-. Utilice la sintaxis de Java.}
+		\subsection{Fase de Elaboración: Diseño Estático Detallado del caso de uso / Ejercicio 6}
+		
+			\includegraphics[width=\linewidth]{diagramas/DED SimularPropagacionEnfermedad_X Diagrama de Clases.jpg}
+			 
+		\subsection{Transformación del Diseño en Código / Ejercicio 7}
+	
+			La solución a este apartado puede encontrarse en forma de código fuente dentro del directorio \texttt{src/} en el paquete de java \texttt{es.uned.dspuf}.
+	
+		\subsection{Motivación / Ejercicios 8 y 9}
 	
 	\printbibliography
 			
